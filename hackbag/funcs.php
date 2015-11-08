@@ -64,6 +64,7 @@ function getUserType(&$user){
 
     $currentTransaction = $user->get("currentTransaction");
     $currentTransaction->fetch();
+
     if ($currentTransaction->get("status") == "active"){
       return "currentBorrower";
     }
@@ -74,18 +75,6 @@ function getUserType(&$user){
       return "seekingBorrower";
     }
   }
-}
-
-//add new BagTransaction to parse with string times as params
-function createTransaction($startTime, $endTime){
-  $user = ParseUser::getCurrentUser();
-  $transaction = new ParseObject("BagTransaction");
-  $transaction->set("borrower", $user);
-  $transaction->set("startTime", $startTime);
-  $transaction->set("endTime", $endTime);
-  $transaction->save();
-  $user->set("currentTransaction", $transaction);
-  $user->save();
 }
 
 //gets registration time of current user
@@ -125,6 +114,17 @@ function getSeekerList(){
   return $json;
 }
 
+//add new BagTransaction to parse with string times as params
+function createTransaction($startTime, $endTime){
+  $user = ParseUser::getCurrentUser();
+  $transaction = new ParseObject("BagTransaction");
+  $transaction->set("borrower", $user);
+  $transaction->set("startTime", $startTime);
+  $transaction->set("endTime", $endTime);
+  $transaction->save();
+  $user->set("currentTransaction", $transaction);
+  $user->save();
+}
 
 //set transaction state to scheduled and assign lender
 function scheduleTransaction($lender, $borrowerID){
@@ -134,6 +134,33 @@ function scheduleTransaction($lender, $borrowerID){
   $transaction->fetch();
   $transaction->set("status", "scheduled");
   $transaction->set("lender", $lender);
+  $transaction->save();
+
+  $lender->set('currentTransaction', $transaction);
+  $lender->save();
+}
+
+function activateTransaction(){
+  $user = ParseUser::getCurrentUser(); //get user
+  $user->fetch(); //refresh user
+  echo $user->get("fullName");
+  $transaction = $user->get("currentTransaction"); //get transaction pointer
+  $transaction->fetch(); //dereference pointer
+  var_dump($transaction->get("activeBorrower"));
+  //if both true
+  if ($transaction->get("activeBorrower") && $transaction->get("activeLender")){
+    $transaction->set("status", "active"); //activate transaction
+    $transaction->save(); //save transaction
+  }
+  else if ($transaction->get("activeBorrower")){ //else activate lender
+    $transaction->set("activeLender", true);
+    $transaction->save(); //save transaction
+  }
+  else { // else activate borrower
+    $transaction->set("activeBorrower", true);
+    $transaction->save(); //save transaction
+  }
+
 }
 
 //get user object by name
@@ -142,5 +169,3 @@ function getUserByName($name){
   return $query->equalTo($name);
 }
 
-
-?>
