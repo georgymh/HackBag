@@ -190,6 +190,3 @@ function getUserByName($name){
   $query = new ParseQuery("_User");
   return $query->equalTo($name);
 }
-
-//$user = ParseUser::getCurrentUser();
-//echo $user->get("fullName") . " is a " . getUserType($user);
