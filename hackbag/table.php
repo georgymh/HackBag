@@ -1,3 +1,15 @@
+<?php
+  
+  include '../parse.php';
+  use Parse\ParseUser;
+  use Parse\ParseQuery;
+
+  include 'funcs.php';
+
+
+  $seekerList = "";
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -5,7 +17,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> HackBag - <?php $currentHackathon->get('name'); ?> </title>
+    <title> HackBag - Lend </title>
 
     <!-- Bootstrap -->
     <link href="https://bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -64,28 +76,9 @@
               <h1 class="name hidden-xs"> <img src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h1>
               <h2 id="text" class="name visible-xs"> <img width="50px" height="50px" src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h2>
               <h3 class="text-primary"> Sleeping Bag Waiting List </h3>
-               <table class="table">
-    <thead>
-      <tr>
-        <th class="text-center">Nickname</th>
-        <th class="text-center">Time Period</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>John</td>
-        <td>6 AM - 10 PM</td>
-      </tr>
-      <tr>
-        <td>Mary</td>
-        <td>2 PM - 3 PM</td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>9AM - 3PM</td>
-      </tr>
-    </tbody>
-  </table>
+               <div class="table-container">
+                  <table id="table"></table>
+               </div>
             </div>
               </div>
           </div> 
@@ -96,10 +89,39 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/locale/bootstrap-table-en-US.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.js"></script>
+
+
+    <script type="text/javascript">
+
+    var seekerList = JSON.Parse('<php echo $seekerList ?>');
+
+    var table = $('#table');
+    table.bootstrapTable({
+      columns: [{
+        field: 'name',
+        title: 'Hacker',
+        valign: "middle"
+      },{
+        field: 'id',
+        title: 'Hacker',
+        visible: false;
+      },
+        field: 'start',
+        title: 'Start time',
+        valign: "middle"
+      }, {
+        field: 'end',
+        title: 'End time',
+        valign: 'middle'
+      }],
+      data: seekerList
+    });
+
+    </script>
+
   </body>
 </html>
 
-
-<script type="text/javascript">
-
-</script>
