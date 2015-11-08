@@ -6,9 +6,22 @@ use Parse\ParseQuery;
 
 include 'funcs.php';
 
+if (isset($_GET['action']) && $_GET['action']) {
+  $action = $_GET['action'];
+  if ($action == "activate") {
+    $currentUser = ParseUser::getCurrentUser();
+    activateTransaction();
+    header('Location: http://' . URL . 'hackbag/timer.php');
+  } else if ($action == 'complete') {
+    $currentUser = ParseUser::getCurrentUser();
+    deactivateTransaction();
+    header('Location: http://' . URL . 'hackbag/');
+  }
+}
+
 $user = ParseUser::getCurrentUser();
 $type = getUserType($user);
-if ($type == 'currentLender') {
+if ($user->get('ownsBag')) {
   // LENDER
   $trans = $user->get('currentTransaction');
   $trans->fetch();
@@ -21,7 +34,9 @@ if ($type == 'currentLender') {
   $msg = "Success! You've made a hacker's night, thank you! Return to receive your bag at $end.";
 
   $action = "Lending to";
-} else if ($type == 'currentBorrower') {
+
+  $acceptMsg = 'Mark Bag As Received';
+} else {
   // BORROWER
   $trans = $user->get('currentTransaction');
   $trans->fetch();
@@ -34,6 +49,8 @@ if ($type == 'currentLender') {
   $msg = "Success! Enjoy your HackBag, and be sure to return at $end.";
 
   $action = "Borrowing from";
+
+  $acceptMsg = 'Mark Bag As Returned';
 }
 
 ?>
@@ -103,7 +120,8 @@ if ($type == 'currentLender') {
                 <h5> <?php echo $action . ' ' . $name . '.'; ?>  </h5>
                 <h3 id="successMsg" class="desc pad-top-sm"> <?php echo $msg; ?> </h3>
 
-                <h3 id="cnt-dwn-title" class="desc pad-top-sm" style="font-weight: 700"> Time until <?php echo $endTime; ?> </h3>
+                <!--
+                <h3 id="cnt-dwn-title" class="desc pad-top-sm" style="font-weight: 700"> Time until <?php //echo $endTime; ?> </h3>
                 <h4 id="cnt-dwn">
                   <span id ="hoursBox" class="timeBox"></span>
                   <span>:</span>
@@ -112,16 +130,20 @@ if ($type == 'currentLender') {
                   <span id ="secsBox" class="timeBox"></span>
                   <p> <br> </p>
                 </h4>
+              -->
                   <div class="row">
                     <div class="col-md-6">
                       <h5 class="text-left">Request time: </h5>
                      <h5 class="text-left">End time:</h5>
                     </div>
                     <div class="col-md-6" style="font-weight: 0;">
-                      <h5 id="start"> </h5>
-                      <h5 id="end"> </h5>
+                      <h5 id="start"> <?php echo $start ?></h5>
+                      <h5 id="end"> <?php echo $end ?></h5>
                     </div>
                   </div>
+
+                  <button id="accept" type="button" class="btn btn-primary btn-lg btn-block"><?php echo $acceptMsg; ?></button>
+
         
 
               
@@ -201,13 +223,21 @@ setInterval(function() {
 var start = moment(startTime).format("hh:mm:ss a");
 var end = moment(endTime*1000).format("hh:mm:ss a"); // in ms
   
-document.getElementById("start").innerHTML = start;
-document.getElementById("end").innerHTML = end;
+//document.getElementById("start").innerHTML = start;
+//document.getElementById("end").innerHTML = end;
 
 if(endTime < (5*1000*60))
 {
   $('#cnt-dwn').fadeOut();
 }
+
+
+$(document).ready(function() {
+      $('#accept').on('click', function(e) {
+          e.preventDefault();
+          window.location.href = 'timer.php?action=complete';
+      });
+    });
 </script>
   </body>
 </html>
