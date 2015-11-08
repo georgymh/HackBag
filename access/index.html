@@ -1,0 +1,51 @@
+<html>
+<head>
+	<title> Access HackBag </title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel='stylesheet' />
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+<body>
+	<div class="content pad-top-lg">
+
+		<h3 class="text-center"> Access HackBag </h3>
+
+		<div class="row pad-top-md">
+		  <div class="col-md-offset-3 col-md-6">
+			<div id="alert-box" class="alert alert-danger" role="alert" style="display:none"></div>
+			<div id="success-box" class="alert alert-success" role="alert" style="display:none"></div>
+		  </div>
+		</div>
+
+		<div id="form-container" class="row pad-top-xsm">
+			<div class="col-md-offset-3 col-md-6">
+				<form>
+
+				  <div class="form-group">
+				    <label class="text-left">Email address</label>
+				    <input type="email" class="form-control" id="email" placeholder="registered@email.com">
+				  </div>
+
+				  <div class="form-group">
+				    <label class="text-left">Password</label>
+				    <input type="password" class="form-control" id="pass" placeholder="Your password...">
+				  </div>
+
+				  <div class="text-center pad-top-xsm">
+
+				  	<button id="login" type="submit" class="btn btn-lg btn-success">
+				  		Log In
+				  		<i id="spinner" class="fa fa-circle-o-notch fa-spin" style="display:none"></i>
+				  	</button>
+				  </div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+<script type="text/javascript" src="https://www.parsecdn.com/js/parse-latest.js"></script>
+<script src='login.js'></script>
+
+</html>
