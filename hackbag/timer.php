@@ -50,6 +50,7 @@ if ($user->get('ownsBag')) {
   $action = "Borrowing from";
 
   $acceptMsg = 'Mark Bag As Returned';
+
 }
 
 ?>
@@ -143,8 +144,11 @@ if ($user->get('ownsBag')) {
 
                   <button id="accept" type="button" class="btn btn-primary btn-lg btn-block"><?php echo $acceptMsg; ?></button>
 
-
-
+                  <?php
+                    if ($action == 'Borrowing from') {
+                      echo ' <button id="accept" type="button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-cc-visa" style="margin-right:5px"></i> Kudos $1 to ' + $name + '</button>';
+                    }
+                  ?>
 
           </div>
         </div>
