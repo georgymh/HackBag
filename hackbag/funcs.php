@@ -95,12 +95,10 @@ function getRegistrationTime(){
   $currentTransaction = $user->get("currentTransaction");
   $currentTransaction-> fetch();
 
-  //JSON convert
   $times = new stdClass();
   $times->start = $currentTransaction->get("startTime");
   $times->end = $currentTransaction->get("endTime");
-  $json = json_encode($times);
-  echo $json;
+  return $times;
 }
 
 //get list of seekers in JSON format
