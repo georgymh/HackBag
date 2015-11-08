@@ -27,10 +27,12 @@ foreach ($results as $result){
   //echo $result->get('fullName') . "</br>";
 }
 
+$numSeekers = count(getSeekers());
+
 if ($numberOfUsers == 0) {
 	$msg = 'No one currently needs your sleeping bag. Keep hacking!';
 } else {
-	$msg = 'There are <span id="number">' . $numberOfUsers . '</span> hackers that need a sleeping bag. Would you like to help one?';
+	$msg = 'There are <span id="number">' . $numSeekers . '</span> hackers that need a sleeping bag. Would you like to help one?';
 }
 
 
@@ -49,7 +51,7 @@ if ($numberOfUsers == 0) {
 
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    
+
     <!-- Style -->
     <link href="style.css" rel="stylesheet" type="text/css" />
 
@@ -76,31 +78,31 @@ if ($numberOfUsers == 0) {
           </button>
           <a class="navbar-brand" href="#" style="font-size:30px; margin-top:5px">HackBag</a>
         </div>
-        
-    
+
+
         <p class="navbar-text navbar-right" style="margin-top:5px; margin-bottom:5px"><img src="http://st2.depositphotos.com/2571355/7122/v/110/depositphotos_71222099-Sleeping-bag-flat-square-icon-with-long-shadows..jpg" class="img-rounded" alt="Cinque Terre" style="border-radius:50%; width: 50px; height:50px; margin-right: 10px"> </p>
 
       </div><!-- /.container-fluid -->
     </nav>
 
 
-      <div class="row"> 
+      <div class="row">
         <div class="pad-top-lg col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-12">
           <div class="header text-center">
             <div class="profile-content">
-                
+
               <h1 class="name hidden-xs"> <img src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h1>
               <h2 id="text" class="name visible-xs"> <img width="50px" height="50px" src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h2>
-              
+
 
                <h2 class="desc pad-top-sm">
                		<?php echo $msg; ?>
                </h2>
 
               	<button id="showList" type="button" class="btn btn-primary btn-lg btn-block">Help a Hacker!</button>
-         
+
               </div>
-          </div> 
+          </div>
         </div>
       </div>
 

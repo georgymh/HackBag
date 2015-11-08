@@ -8,7 +8,7 @@ use Parse\ParseObject;
 //gets array of users with available bags
 function getLenders(){
   $query = new ParseQuery("_User");
-  $query->equalTo("ownsBag", false);
+  $query->equalTo("ownsBag", true);
   $results = $query->find();
 
   return $results;
@@ -43,6 +43,7 @@ function getSeekers(){
 
 //get type of user
 function getUserType(&$user){
+  $user->fetch();
   if ($user->get("ownsBag")){
     if ($user->get("currentTransaction") == NULL){
       return "availableLender";
@@ -163,10 +164,10 @@ function deactivateTransaction(){
   $user = ParseUser::getCurrentUser(); //get user
   $user->fetch(); //refresh user
   $transaction = $user->get("currentTransaction"); //get transaction pointer
+  $transaction->fetch(); //dereference pointer
   if ($transaction == NULL) {
     die('no transaction!');
   }
-  $transaction->fetch(); //dereference pointer
   if ($transaction->get("flag")) {
     $transaction->destroy();
   } else {
@@ -186,3 +187,6 @@ function getUserByName($name){
   $query = new ParseQuery("_User");
   return $query->equalTo($name);
 }
+
+//$user = ParseUser::getCurrentUser();
+//echo $user->get("fullName") . " is a " . getUserType($user);

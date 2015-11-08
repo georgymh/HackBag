@@ -138,7 +138,8 @@ foreach ($results as $result){
               <h2 class="name visible-xs"> <img width="50px" height="50px" src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h2>
               <hr>
 
-              <h4 class="desc pad-top-xs text-success"> <span id="availableSleepingBags"><?php echo $numberOfUsers ?></span> Sleeping Bags are available. </h4>
+              <h4 class="desc pad-top-xs text-success"> <span id="availableSleepingBags">
+                <?php echo count(getLenders()) ?></span> Sleeping Bags are available. </h4>
 
               <form action="." method="post">
                 <div id="time-selection" class="row pad-top-sm text-center">
@@ -197,7 +198,7 @@ foreach ($results as $result){
 
           echo " $('#time-selection').hide(); ";
           echo " var start = '$start'; var end = '$end'; ";
-          echo " $('#time-requested').html('<h5>You requested a sleeping bag from ' + start + ' to ' + end + '.</h5> <h5> Please wait until we pair you with a hacker. </h5>'); ";
+          echo " $('#time-requested').html('<h5>You requested a sleeping bag from ' + start + ' to ' + end + '.</h5> <h5> Please wait while we pair you with a hacker. </h5>'); ";
           echo " $('#time-requested').fadeIn(); ";
           echo " $('#action').val('delete'); ";
 

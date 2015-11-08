@@ -11,7 +11,6 @@ if (isset($_GET['action']) && $_GET['action']) {
   if ($action == "activate") {
     $currentUser = ParseUser::getCurrentUser();
     activateTransaction();
-    header('Location: http://' . URL . 'hackbag/timer.php');
   } else if ($action == 'complete') {
     $currentUser = ParseUser::getCurrentUser();
     deactivateTransaction();
@@ -68,11 +67,11 @@ if ($user->get('ownsBag')) {
 
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    
+
     <!-- Style -->
     <link href="style.css" rel="stylesheet" type="text/css" />
 
-  
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -96,26 +95,26 @@ if ($user->get('ownsBag')) {
           </button>
           <a class="navbar-brand" href="#" style="font-size:30px; margin-top:5px">HackBag</a>
         </div>
-        
-    
+
+
         <p class="navbar-text navbar-right" style="margin-top:5px; margin-bottom:5px"> <img src="http://st2.depositphotos.com/2571355/7122/v/110/depositphotos_71222099-Sleeping-bag-flat-square-icon-with-long-shadows..jpg" class="img-rounded" alt="Cinque Terre" style="border-radius:50%; width: 50px; height:50px; margin-right: 10px"> </p>
 
-        
+
 
 
       </div><!-- /.container-fluid -->
     </nav>
 
 
-      <div class="row"> 
+      <div class="row">
         <div class="pad-top-lg col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-12">
           <div class="header text-center">
             <div class="profile-content">
-              
-            
+
+
               <h1 class="name hidden-xs"> <img src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h1>
               <h2 class="name visible-xs"> <img width="50px" height="50px" src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h2>
-                
+
 
                 <h5> <?php echo $action . ' ' . $name . '.'; ?>  </h5>
                 <h3 id="successMsg" class="desc pad-top-sm"> <?php echo $msg; ?> </h3>
@@ -144,9 +143,9 @@ if ($user->get('ownsBag')) {
 
                   <button id="accept" type="button" class="btn btn-primary btn-lg btn-block"><?php echo $acceptMsg; ?></button>
 
-        
 
-              
+
+
           </div>
         </div>
       </div>
@@ -165,30 +164,30 @@ if ($user->get('ownsBag')) {
 
 
     <script type="text/javascript">
-  function myFunction(startTime, duration) 
+  function myFunction(startTime, duration)
   {
     var currentTime = new Date().getTime() / 1000;// get current time in seconds
     var endTime = (startTime / 1000) + (duration * 60 * 60); // Sin seconds
-    
+
     var secondsUntilEnd = endTime - currentTime; // in seconds
-    
+
     console.log(secondsUntilEnd);
-    
-    if (secondsUntilEnd <= 0) 
+
+    if (secondsUntilEnd <= 0)
     {
       $('#cnt-dwn-title').fadeOut();
       $('#cnt-dwn').fadeOut();
       //document.getElementById("status").innerHTML = "already finished!";
       return;
-    } 
-    else 
+    }
+    else
     {
-      
+
       var hours = Math.floor(secondsUntilEnd / 3600);
       var mins = Math.floor((secondsUntilEnd/60) - (hours*60));
       var temp = (hours * 3600) + (mins * 60);
       var secs = Math.floor(secondsUntilEnd - temp);
-  
+
       function pad(d) {
             return (d < 10) ? '0' + d.toString() : d.toString();
       }
@@ -222,7 +221,7 @@ setInterval(function() {
 
 var start = moment(startTime).format("hh:mm:ss a");
 var end = moment(endTime*1000).format("hh:mm:ss a"); // in ms
-  
+
 //document.getElementById("start").innerHTML = start;
 //document.getElementById("end").innerHTML = end;
 
