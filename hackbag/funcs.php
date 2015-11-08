@@ -101,6 +101,28 @@ function getRegistrationTime(){
   echo $json;
 }
 
-createTransaction("2pm", "6pm");
+//get list of seekers in JSON format
+function getSeekerList(){
+  $seekers = getSeekers();
+  $users = array();
+  foreach ($seekers as $seeker){
+    $transaction = $seeker->get("currentTransaction");
+    $transaction->fetch();
+    $startTime = $transaction->get("startTime");
+    $endTime = $transaction->get("endTime");
+
+    $user = array(
+      "name" => $seeker->get("fullName"),
+      "start" => $startTime,
+      "end" => $endTime
+    );
+
+    $users[] = $user;
+  }
+
+  $json = json_encode($users);
+  return $json;
+}
+
 
 ?>
