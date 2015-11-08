@@ -1,6 +1,6 @@
 <?php
 
-include '../parse.php';
+include_once '../parse.php';
 use Parse\ParseUser;
 use Parse\ParseQuery;
 use Parse\ParseObject;
@@ -100,5 +100,7 @@ function getRegistrationTime(){
   $json = json_encode($times);
   echo $json;
 }
+
+createTransaction("2pm", "6pm");
 
 ?>
