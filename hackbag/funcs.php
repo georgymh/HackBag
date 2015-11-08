@@ -23,26 +23,64 @@ function getNumOfSleepers(){
   return $count;
 }
 
-//toggle seeking value
-function toggleSeeking($user){
-  $user->set("seeking", !$user->get("seeking"));
-}
-
 //get array of users seeking bags
 function getSeekers(){
-  $query = new ParseQuery("_User");
-  $query->equalTo("seeking", true);
+  $query = new ParseQuery("BagTransaction");
+  $query->doesNotExist("status");
   $results = $query->find();
-  return $results;
+  $users = array();
+
+  //convert BagTransactions to Users
+  foreach ($results as $result){
+    $user = $result->get("borrower");
+    $user->fetch();
+    $users[] = $user;
+  }
+
+  return $users;
 }
 
-// function getType($user){
-//
+//get type of user
+function getUserType(&$user){
+  if ($user->get("ownsBag")){
+    if ($user->get("currentTransaction") == NULL){
+      return "availableLender";
+    }
+
+    $currentTransaction = $user->get("currentTransaction");
+    $currentTransaction->fetch();
+    if ($currentTransaction->get("status") == "active"){
+      return "currentLender";
+    }
+    else if ($currentTransaction->get("status") == "scheduled"){
+      return "scheduledLender";
+    }
+  }
+  else {
+    if ($user->get("currentTransaction") == NULL){
+      return "availableBorrower";
+    }
+
+    $currentTransaction = $user->get("currentTransaction");
+    $currentTransaction->fetch();
+    if ($currentTransaction->get("status") == "active"){
+      return "currentBorrower";
+    }
+    else if ($currentTransaction->get("status") == "scheduled"){
+      return "scheduledBorrower";
+    }
+  }
+}
+
+
+$user = ParseUser::getCurrentUser(); // put the user in $user
+$user->fetch();
+echo $user->get("fullName") . " is a " . getUserType($user);
+
+
+// $results = getSeekers();
+// foreach ($results as $result){
+//   echo $result->get("fullName") . " " . count($result);
 // }
-
-
-
-$var = findRandomLender();
-echo $var->get("fullName") . "</br>";
 
 ?>
