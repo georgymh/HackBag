@@ -22,7 +22,6 @@ if (ParseUser::getCurrentUser()) { // if user is logged in
 
 $requested = false;
 $userType = getUserType(ParseUser::getCurrentUser());
-echo $userType;
 
 if ($userType == 'availableBorrower') {
   // Procceed normally!
@@ -130,6 +129,28 @@ foreach ($results as $result){
   </head>
   <body style="font-size:14px">
     <div class="container">
+
+      <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#" style="font-size:30px; margin-top:5px">HackBag</a>
+        </div>
+        
+    
+        <p class="navbar-text navbar-right" style="margin-top:5px; margin-bottom:5px"><img src="http://st2.depositphotos.com/2571355/7122/v/110/depositphotos_71222099-Sleeping-bag-flat-square-icon-with-long-shadows..jpg" class="img-rounded" alt="Cinque Terre" style="border-radius:50%; width: 50px; height:50px; margin-right: 10px"> </p>
+
+
+          </div><!-- /.container-fluid -->
+        </nav>
+
+
       <div class="row">
         <div class="pad-top-lg col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-12">
           <div class="header text-center">
