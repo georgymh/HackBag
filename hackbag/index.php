@@ -4,17 +4,57 @@ include '../parse.php';
 use Parse\ParseUser;
 use Parse\ParseQuery;
 
+include 'funcs.php';
+
+ParseUser::logOut();
+
 if (ParseUser::getCurrentUser()) { // if user is logged in
   $user = ParseUser::getCurrentUser(); // put the user in $user
 } else { // otherwise
   try {
-    $user = ParseUser::logIn("bill@hackathon.com", "billbill"); // log the user
+    $user = ParseUser::logIn("joe@hackathon.com", "joejoe"); // log the user
     // Do stuff after successful login.
   } catch (ParseException $error) {
     // The login failed. Check error to see why.
     die('Bill could not log in!'); // in case of error fail misserably
   }
 }
+
+$requested = false;
+$userType = getUserType(ParseUser::getCurrentUser());
+echo $userType;
+
+if ($userType == 'availableBorrower') {
+  // Procceed normally!
+
+  // Check if action was performed.
+  if (isset($_POST['action']) && $_POST['action']) {
+    $action = $_POST['action'];
+    
+    if ($action == 'request') {
+      $start = $_POST['start'];
+      $end = $_POST['end'];
+
+      $requested = true;
+
+      // Send a request for the specified time.
+      createTransaction($start, $end);
+    } else {
+      // DELETE TRANSACTION.
+    }
+  }
+
+} else if ($userType == 'seekingBorrower') {
+  // Get start and end.
+
+  $requested = true;
+  $times = getRegistrationTime();
+  $start = $times->start;
+  $end = $times->end;
+
+}
+
+
 
 // BODY
 
@@ -64,6 +104,11 @@ foreach ($results as $result){
     <!-- Style -->
     <link href="style.css" rel="stylesheet" type="text/css" />
 
+    <link href="jquery.timepicker.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
+
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -81,33 +126,74 @@ foreach ($results as $result){
               <h2 class="name visible-xs"> <img width="50px" height="50px" src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h2>
               <hr>
 
-              <h4 class="desc pad-top-xs"> <span id="availableSleepingBags">12</span> Sleeping Bags are available. </h4>
+              <h4 class="desc pad-top-xs text-success"> <span id="availableSleepingBags">12</span> Sleeping Bags are available. </h4>
 
-              <button id="request" type="button" class="btn btn-default btn-lg btn-block hidden-xs">Request a Sleeping Bag</button>
-              <button id="request" type="button" class="btn btn-default btn-md btn-block visible-xs">Request a Sleeping Bag</button>
+              <form action="." method="post">
+                <div id="time-selection" class="row pad-top-sm text-center">
+                  <div class="col-md-6">
+                    <label class="sr-only">Starting Time</label>
+                    <div class="input-group start-div timepicker">
+                        <input class="form-control" name="start" id="start" placeholder="2:00 AM">
 
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="sr-only">Ending Time</label>
+
+                    <div class="input-group end-div timepicker">
+                      <input class="form-control" name="end" id="end" placeholder="4:00 AM">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                  </div>
+                    
+                  </div>
+                </div>
+
+                <div id="time-requested">
+
+                </div>
+
+                <input id="action" type="hidden" name="action" value="request">
+                <button id="request" type="submit" class="btn btn-default btn-lg btn-block">Request a Sleeping Bag</button>
+
+              </form>
             </div>
           </div>
         </div>
       </div>
 
-      <div>
-
-        <div class="row pad-top">
-
-        </div>
-        <div class="row pad-top">
-
-        </div>
-        <div class="row pad-top">
-
-        </div>
-
-      </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="jquery.timepicker.js"></script>
+
+    <script>
+      $('#start').timepicker();
+      $('#end').timepicker();
+
+      <?php
+
+      if ($requested) { 
+
+          echo "$('#request').css('background', \"darkgray\");";
+          echo "$('#request').css('border-color', \"darkgray\");";
+          echo "$('#request').text('Request Pending...');";
+
+          echo " $('#time-selection').hide(); ";
+          echo " var start = '$start'; var end = '$end'; ";
+          echo " $('#time-requested').html('<h5>You requested a sleeping bag from ' + start + ' to ' + end + '.</h5> <h5> Please wait until we pair you with a hacker. </h5>'); ";
+          echo " $('#time-requested').fadeIn(); ";
+          echo " $('#action').val('delete'); ";
+
+      }
+
+      ?>
+        
+
+    </script>
   </body>
 </html>
