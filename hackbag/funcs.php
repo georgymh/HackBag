@@ -64,6 +64,7 @@ function getUserType(&$user){
 
     $currentTransaction = $user->get("currentTransaction");
     $currentTransaction->fetch();
+
     if ($currentTransaction->get("status") == "active"){
       return "currentBorrower";
     }
@@ -133,6 +134,10 @@ function scheduleTransaction($lender, $borrowerID){
   $transaction->fetch();
   $transaction->set("status", "scheduled");
   $transaction->set("lender", $lender);
+  $transaction->save();
+
+  $lender->set('currentTransaction', $transaction);
+  $lender->save();
 }
 
 function activateTransaction(){

@@ -52,6 +52,18 @@ if ($userType == 'availableBorrower') {
   $start = $times->start;
   $end = $times->end;
 
+} else if ($userType == 'currentBorrower') {
+  header('Location: http://' . URL . 'hackbag/timer.php');
+} else if ($userType == 'scheduledBorrower') {
+  header('Location: http://' . URL . 'hackbag/scheduled.php');
+
+// LENDERS!
+} else if ($userType == 'currentLender') {
+  header('Location: http://' . URL . 'hackbag/timer.php');
+} else if ($userType == 'scheduledLender') {
+  header('Location: http://' . URL . 'hackbag/scheduled.php');
+} else if ($userType == 'availableLender') {
+  header('Location: http://' . URL . 'hackbag/main.php');
 }
 
 
@@ -192,8 +204,23 @@ foreach ($results as $result){
       }
 
       ?>
-        
 
+      function listenForUpdate() {
+        $.ajax({
+          url: "getUpdate.php",
+          success: function(type) {
+            if (type == 'scheduledLender' || type == 'scheduledBorrower') {
+              window.location.href = 'scheduled.php';
+            } else if (type == 'currentLender' || type == 'currentBorrower') {
+              window.location.href = 'timer.php';
+            }
+          }
+        });
+      }
+
+      setInterval(function() {
+        listenForUpdate();
+      }, 1000);
     </script>
   </body>
 </html>
