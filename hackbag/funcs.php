@@ -164,25 +164,8 @@ function deactivateTransaction(){
   $user->fetch(); //refresh user
   $transaction = $user->get("currentTransaction"); //get transaction pointer
   $transaction->fetch(); //dereference pointer
-  //if both true
-
   if ($transaction->get("flag")) {
-    // delete
-    //clean borrower's currentTransaction
-    //$borrower = $transaction->get("borrower");
-    //$borrower->fetch();
-    //$borrower->delete("currentTransaction");
-    //$borrower->save();
-
-    // CANT DELETE ANOTHER USER...
-    //clean lender's currentTransaction
-    //$lender = $transaction->get("lender");
-    //$lender->fetch();
-    //$lender->delete("currentTransaction");
-    //$lender->save();
-
     $transaction->destroy();
-    //$transaction->save(); //save transaction
   } else {
     // activate flag
     $transaction->set("flag", true);
