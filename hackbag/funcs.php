@@ -3,6 +3,7 @@
 include '../parse.php';
 use Parse\ParseUser;
 use Parse\ParseQuery;
+use Parse\ParseObject;
 
 //gets array of users with available bags
 function getLenders(){
@@ -75,19 +76,29 @@ function getUserType(&$user){
   }
 }
 
-// function createTransaction($startTime, $endTime){
-//   $user = ParseUser::getCurrentUser();
-//
-// }
-//
-// function getRegistrationTime(){
-//   $user = ParseUser::getCurrentUser();
-//   $currentTransaction = $user->get("currentTransaction");
-//   $currentTransaction-> fetch();
-//   echo $currentTransaction->get("startingTime");
-// }
+//add new BagTransaction to parse with string times as params
+function createTransaction($startTime, $endTime){
+  $user = ParseUser::getCurrentUser();
+  $transaction = new ParseObject("BagTransaction");
+  $transaction->set("borrower", $user);
+  $transaction->set("startTime", $startTime);
+  $transaction->set("endTime", $endTime);
+  $transaction->save();
+}
 
+//gets registration time of current user
+function getRegistrationTime(){
+  $user = ParseUser::getCurrentUser();
+  $user->fetch();
+  $currentTransaction = $user->get("currentTransaction");
+  $currentTransaction-> fetch();
 
-getRegistrationTime();
+  //JSON convert
+  $times = new stdClass();
+  $times->start = $currentTransaction->get("startTime");
+  $times->end = $currentTransaction->get("endTime");
+  $json = json_encode($times);
+  echo $json;
+}
 
 ?>
