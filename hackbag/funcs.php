@@ -84,6 +84,8 @@ function createTransaction($startTime, $endTime){
   $transaction->set("startTime", $startTime);
   $transaction->set("endTime", $endTime);
   $transaction->save();
+  $user->set("currentTransaction", $transaction);
+  $user->save();
 }
 
 //gets registration time of current user
