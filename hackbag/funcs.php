@@ -164,21 +164,24 @@ function deactivateTransaction(){
   $user = ParseUser::getCurrentUser(); //get user
   $user->fetch(); //refresh user
   $transaction = $user->get("currentTransaction"); //get transaction pointer
-  $transaction->fetch(); //dereference pointer
   if ($transaction == NULL) {
-    die('no transaction!');
+    //die('no transaction!');
   }
+  $transaction->fetch(); //dereference pointer
+  //if both true
+
   if ($transaction->get("flag")) {
+    $user->delete('currentTransaction');
+    $user->save();
     $transaction->destroy();
   } else {
     // activate flag
     $transaction->set("flag", true);
+    $transaction->save(); //save transaction
 
     // Disassociate user
     $user->delete('currentTransaction');
-    $user->save();
-
-    $transaction->save(); //save transaction
+    $user->save();    
   }
 }
 
