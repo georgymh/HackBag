@@ -69,18 +69,25 @@ function getUserType(&$user){
     else if ($currentTransaction->get("status") == "scheduled"){
       return "scheduledBorrower";
     }
+    else if ($currentTransaction->get("lender") == NULL){
+      return "seekingBorrower";
+    }
   }
 }
 
-
-$user = ParseUser::getCurrentUser(); // put the user in $user
-$user->fetch();
-echo $user->get("fullName") . " is a " . getUserType($user);
-
-
-// $results = getSeekers();
-// foreach ($results as $result){
-//   echo $result->get("fullName") . " " . count($result);
+// function createTransaction($startTime, $endTime){
+//   $user = ParseUser::getCurrentUser();
+//
 // }
+//
+// function getRegistrationTime(){
+//   $user = ParseUser::getCurrentUser();
+//   $currentTransaction = $user->get("currentTransaction");
+//   $currentTransaction-> fetch();
+//   echo $currentTransaction->get("startingTime");
+// }
+
+
+getRegistrationTime();
 
 ?>
