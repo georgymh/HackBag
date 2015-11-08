@@ -126,7 +126,6 @@ a.dotted-link:hover {
   margin-top: 30px;
 }
 .header .profile-content .desc {
-  color: #778492;
   font-family: "Lato", arial, sans-serif;
   font-weight: 400;
   font-size: 24px;
@@ -169,3 +168,4 @@ a.dotted-link:hover {
 .pad-top {
 	padding-top:40px;
 }
+
