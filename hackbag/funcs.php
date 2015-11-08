@@ -136,7 +136,7 @@ function scheduleTransaction($lender, $borrowerID){
 }
 
 //get user object by name
-function getUser($name){
+function getUserByName($name){
   $query = new ParseQuery("_User");
   return $query->equalTo($name);
 }
