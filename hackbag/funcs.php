@@ -200,5 +200,3 @@ function getUserByName($name){
   $query = new ParseQuery("_User");
   return $query->equalTo($name);
 }
-
-deactivateTransaction();

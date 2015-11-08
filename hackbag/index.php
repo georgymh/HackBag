@@ -30,7 +30,7 @@ if ($userType == 'availableBorrower') {
   // Check if action was performed.
   if (isset($_POST['action']) && $_POST['action']) {
     $action = $_POST['action'];
-    
+
     if ($action == 'request') {
       $start = $_POST['start'];
       $end = $_POST['end'];
@@ -112,7 +112,7 @@ foreach ($results as $result){
 
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    
+
     <!-- Style -->
     <link href="style.css" rel="stylesheet" type="text/css" />
 
@@ -130,7 +130,7 @@ foreach ($results as $result){
   </head>
   <body style="font-size:14px">
     <div class="container">
-      <div class="row"> 
+      <div class="row">
         <div class="pad-top-lg col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-12">
           <div class="header text-center">
             <div class="profile-content">
@@ -157,7 +157,7 @@ foreach ($results as $result){
                       <input class="form-control" name="end" id="end" placeholder="4:00 AM">
                       <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
                   </div>
-                    
+
                   </div>
                 </div>
 
@@ -179,7 +179,7 @@ foreach ($results as $result){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
     <script src="jquery.timepicker.js"></script>
 
@@ -189,7 +189,7 @@ foreach ($results as $result){
 
       <?php
 
-      if ($requested) { 
+      if ($requested) {
 
           echo "$('#request').css('background', \"darkgray\");";
           echo "$('#request').css('border-color', \"darkgray\");";
