@@ -125,5 +125,21 @@ function getSeekerList(){
   return $json;
 }
 
+//set transaction state to scheduled and assign lender
+function scheduleTransaction($lender, $borrowerID){
+  $query = new ParseQuery("_User");
+  $borrower = $query->get($borrowerID);
+  $transaction = $borrower->get("currentTransaction");
+  $transaction->fetch();
+  $transaction->set("status", "scheduled");
+  $transaction->set("lender", $lender);
+}
+
+//get user object by name
+function getUser($name){
+  $query = new ParseQuery("_User");
+  return $query->equalTo($name);
+}
+
 
 ?>
