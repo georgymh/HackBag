@@ -112,7 +112,7 @@ function getSeekerList(){
     $endTime = $transaction->get("endTime");
 
     $user = array(
-      "id" => $seeker->getObjectId();
+      "id" => $seeker->getObjectId(),
       "name" => $seeker->get("fullName"),
       "start" => $startTime,
       "end" => $endTime
