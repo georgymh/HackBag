@@ -1,6 +1,6 @@
 <?php
 
-include '../parse.php';
+include_once '../parse.php';
 use Parse\ParseUser;
 use Parse\ParseQuery;
 
@@ -75,19 +75,16 @@ function getUserType(&$user){
   }
 }
 
-// function createTransaction($startTime, $endTime){
-//   $user = ParseUser::getCurrentUser();
-//
-// }
-//
-// function getRegistrationTime(){
-//   $user = ParseUser::getCurrentUser();
-//   $currentTransaction = $user->get("currentTransaction");
-//   $currentTransaction-> fetch();
-//   echo $currentTransaction->get("startingTime");
-// }
+function createTransaction($startTime, $endTime){
+  $user = ParseUser::getCurrentUser();
 
+}
 
-getRegistrationTime();
+function getRegistrationTime(){
+  $user = ParseUser::getCurrentUser();
+  $currentTransaction = $user->get("currentTransaction");
+  $currentTransaction-> fetch();
+  echo $currentTransaction->get("startingTime");
+}
 
 ?>
