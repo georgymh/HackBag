@@ -125,6 +125,7 @@ function getSeekerList(){
   return $json;
 }
 
+
 //set transaction state to scheduled and assign lender
 function scheduleTransaction($lender, $borrowerID){
   $query = new ParseQuery("_User");
