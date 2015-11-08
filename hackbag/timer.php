@@ -146,7 +146,7 @@ if ($user->get('ownsBag')) {
 
                   <?php
                     if ($action == 'Borrowing from') {
-                      echo ' <button id="accept" type="button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-cc-visa" style="margin-right:5px"></i> Kudos $1 to ' + $name + '</button>';
+                      echo ' <button id="accept" type="button" class="btn btn-success btn-lg btn-block" style="margin-top:15px"><i class="fa fa-cc-visa" style="margin-right:5px"></i> Kudos $1 to ' . $name . '</button>';
                     }
                   ?>
 
