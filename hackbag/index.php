@@ -12,7 +12,7 @@ if (ParseUser::getCurrentUser()) { // if user is logged in
   $user = ParseUser::getCurrentUser(); // put the user in $user
 } else { // otherwise
   try {
-    $user = ParseUser::logIn("user3@hackathon.com", "user3"); // log the user
+    $user = ParseUser::logIn("rhonda@hackathon.com", "123"); // log the user
     // Do stuff after successful login.
   } catch (ParseException $error) {
     // The login failed. Check error to see why.
@@ -142,8 +142,8 @@ foreach ($results as $result){
           </button>
           <a class="navbar-brand" href="#" style="font-size:30px; margin-top:5px">HackBag</a>
         </div>
-        
-    
+
+
         <p class="navbar-text navbar-right" style="margin-top:5px; margin-bottom:5px"><img src="http://st2.depositphotos.com/2571355/7122/v/110/depositphotos_71222099-Sleeping-bag-flat-square-icon-with-long-shadows..jpg" class="img-rounded" alt="Cinque Terre" style="border-radius:50%; width: 50px; height:50px; margin-right: 10px"> </p>
 
 
