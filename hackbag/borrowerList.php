@@ -6,13 +6,12 @@ use Parse\ParseQuery;
 
 include 'funcs.php';
 
-ParseUser::logOut();
-
 if (ParseUser::getCurrentUser()) { // if user is logged in
   $user = ParseUser::getCurrentUser(); // put the user in $user
+  echo $user->get("fullName");
 } else { // otherwise
   try {
-    $user = ParseUser::logIn("user3@hackathon.com", "user3"); // log the user
+    $user = ParseUser::logIn("nick@hackathon.com", "nicknick"); // log the user
     // Do stuff after successful login.
   } catch (ParseException $error) {
     // The login failed. Check error to see why.
@@ -20,52 +19,32 @@ if (ParseUser::getCurrentUser()) { // if user is logged in
   }
 }
 
-$requested = false;
+$numOfLenders = count(getLenders());
+
 $userType = getUserType(ParseUser::getCurrentUser());
+var_dump($userType);
 
 if ($userType == 'availableBorrower') {
-  // Procceed normally!
-
-  // Check if action was performed.
-  if (isset($_POST['action']) && $_POST['action']) {
-    $action = $_POST['action'];
-
-    if ($action == 'request') {
-      $start = $_POST['start'];
-      $end = $_POST['end'];
-
-      $requested = true;
-
-      // Send a request for the specified time.
-      createTransaction($start, $end);
-    } else {
-      // DELETE TRANSACTION.
-    }
-  }
 
 } else if ($userType == 'seekingBorrower') {
-  // Get start and end.
 
-  $requested = true;
-  $times = getRegistrationTime();
-  $start = $times->start;
-  $end = $times->end;
-
-} else if ($userType == 'currentBorrower') {
-  header('Location: http://' . URL . 'hackbag/timer.php');
-} else if ($userType == 'scheduledBorrower') {
-  header('Location: http://' . URL . 'hackbag/scheduled.php');
-
-// LENDERS!
-} else if ($userType == 'currentLender') {
-  header('Location: http://' . URL . 'hackbag/timer.php');
-} else if ($userType == 'scheduledLender') {
-  header('Location: http://' . URL . 'hackbag/scheduled.php');
-} else if ($userType == 'availableLender') {
-  header('Location: http://' . URL . 'hackbag/main.php');
 }
 
+$requested = false;
+// Check if action was performed.
+if (isset($_POST['action']) && $_POST['action']) {
+  $action = $_POST['action'];
 
+  if ($action == 'request') {
+    $start = $_POST['start'];
+    $end = $_POST['end'];
+
+    $requested = true;
+
+    // Send a request for the specified time.
+    createTransaction($start, $end);
+  }
+}
 
 // BODY
 
@@ -117,9 +96,6 @@ foreach ($results as $result){
 
     <link href="jquery.timepicker.css" rel="stylesheet" type="text/css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.8.1/bootstrap-table.min.css">
-
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -129,28 +105,6 @@ foreach ($results as $result){
   </head>
   <body style="font-size:14px">
     <div class="container">
-
-      <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#" style="font-size:30px; margin-top:5px">HackBag</a>
-        </div>
-        
-    
-        <p class="navbar-text navbar-right" style="margin-top:5px; margin-bottom:5px"><img src="http://st2.depositphotos.com/2571355/7122/v/110/depositphotos_71222099-Sleeping-bag-flat-square-icon-with-long-shadows..jpg" class="img-rounded" alt="Cinque Terre" style="border-radius:50%; width: 50px; height:50px; margin-right: 10px"> </p>
-
-
-          </div><!-- /.container-fluid -->
-        </nav>
-
-
       <div class="row">
         <div class="pad-top-lg col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-3 col-sm-6 col-xs-12">
           <div class="header text-center">
@@ -159,8 +113,7 @@ foreach ($results as $result){
               <h2 class="name visible-xs"> <img width="50px" height="50px" src="https://s3.amazonaws.com/assets.mlh.io/events/logos/000/000/136/thumb/0_mlh_citrushacks_logo.png?1441815149"> Citrus Hack </h2>
               <hr>
 
-              <h4 class="desc pad-top-xs text-success"> <span id="availableSleepingBags">
-                <?php echo count(getLenders()) ?></span> Sleeping Bags are available. </h4>
+              <h4 class="desc pad-top-xs text-success"> <span id="availableSleepingBags"><?php echo $numOfLenders ?></span> Sleeping Bags are available. </h4>
 
               <form action="." method="post">
                 <div id="time-selection" class="row pad-top-sm text-center">
@@ -219,30 +172,17 @@ foreach ($results as $result){
 
           echo " $('#time-selection').hide(); ";
           echo " var start = '$start'; var end = '$end'; ";
-          echo " $('#time-requested').html('<h5>You requested a sleeping bag from ' + start + ' to ' + end + '.</h5> <h5> Please wait while we pair you with a hacker. </h5>'); ";
+          echo " $('#time-requested').html('You requested a sleeping bag from ' + start + ' to ' + end + '.'); ";
           echo " $('#time-requested').fadeIn(); ";
           echo " $('#action').val('delete'); ";
+
+      } else {
 
       }
 
       ?>
 
-      function listenForUpdate() {
-        $.ajax({
-          url: "getUpdate.php",
-          success: function(type) {
-            if (type == 'scheduledLender' || type == 'scheduledBorrower') {
-              window.location.href = 'scheduled.php';
-            } else if (type == 'currentLender' || type == 'currentBorrower') {
-              window.location.href = 'timer.php';
-            }
-          }
-        });
-      }
 
-      setInterval(function() {
-        listenForUpdate();
-      }, 1000);
     </script>
   </body>
 </html>
